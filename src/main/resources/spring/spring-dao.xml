@@ -52,7 +52,11 @@
 
     <!-- RedisDao -->
     <bean id="redisDao" class="org.seckill.dao.cache.RedisDao">
+        <!--
         <constructor-arg index="0" value="localhost"/>
+        -->
+        <constructor-arg index="0" value="47.93.11.196"/>
         <constructor-arg index="1" value="6379"/>
+        <constructor-arg index="2" value="liuyang"/>
     </bean>
 </beans>

@@ -17,8 +17,11 @@ public class RedisDao {
 
     private final JedisPool jedisPool;
 
-    public RedisDao(String ip, int port) {
+    private final String password;
+
+    public RedisDao(String ip, int port,String password) {
         jedisPool = new JedisPool(ip, port);
+        this.password = password;
     }
 
     private RuntimeSchema<Seckill> schema = RuntimeSchema.createFrom(Seckill.class);
@@ -27,6 +30,7 @@ public class RedisDao {
         //redis操作逻辑
         try {
             Jedis jedis = jedisPool.getResource();
+            jedis.auth(this.password);
             try {
                 String key = "seckill:" + seckillId;
                 //并没有实现内部序列化操作
@@ -55,6 +59,7 @@ public class RedisDao {
         // set Object(Seckill) -> 序列化 -> byte[]
         try {
             Jedis jedis = jedisPool.getResource();
+            jedis.auth(this.password);
             try {
                 String key = "seckill:" + seckill.getSeckillId();
                 byte[] bytes = ProtostuffIOUtil.toByteArray(seckill, schema,
